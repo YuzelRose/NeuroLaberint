@@ -1,0 +1,52 @@
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-size), 1fr);
+    grid-template-rows: repeat(var(--grid-size), 1fr);
+    gap: 0.5em;
+}
+.box{
+    cursor: pointer;
+    padding: calc(19em / var(--grid-size));
+    border: solid whitesmoke 0.2em;
+}
+#controls {
+    width: 100%;
+    height: 2.5em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+}
+
+#controls input[type="number"] {
+    width: 3em;
+    text-align: center;
+    color: var(--text-h);
+    background-color: var(--bg-color);
+    border: solid var(--text) 0.2em;
+    border-radius: 1em;
+    font-size: 1.5rem;
+    appearance: textfield;
+}
+
+#controls button {
+    padding: 0 1em;
+    background-color: var(--bg-color);
+    color: var(--text-h);
+    border: solid var(--text) 0.2em;
+    border-radius: 1em;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+#controls button:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
+}
+
+#controls button:active {
+    border: solid var(--accent-border) 0.2em;
+    color: var(--accent);
+    background-color: var(--accent-bg);
+}

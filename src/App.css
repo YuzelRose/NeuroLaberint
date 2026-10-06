@@ -1,0 +1,36 @@
+main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5em;
+}
+#simbols-container {
+  padding: 1em;
+  width: 40%;
+  border: solid var(--border) 0.2em;
+  border-radius: 1em;
+}
+#simbols-title {
+  border-bottom: solid var(--border) 0.2em;
+  width: 100%;
+  padding-bottom: 0.5em;
+}
+.simbols {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  font-size: 1.5em;
+}
+.simbols_box {
+  border: solid whitesmoke 0.2em;
+  margin-right: 1em;
+  width: 1em;
+  height: 1em;
+}

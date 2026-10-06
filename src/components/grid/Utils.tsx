@@ -103,7 +103,7 @@ export function findPath(grid: GridMatrix): GridMatrix | null {
 
   // Si recorrió todas las posiciones posibles sin llegar al fin
   if (!pathFound) {
-    alert("No se encontró solución. Asegúrate de tener exactamente 1 Inicio, 1 Fin y una ruta libre.");
+    alert("No se encontró solución. Asegúrate de tener una ruta libre.");
     return null;
   }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './grid.css';
-import { STATE_MAP, findPath, resetGrid, type GridMatrix } from './Utils';
+import { STATE_MAP, findPathBFS, findPathDFS, resetGrid, type GridMatrix } from './Utils';
 
 // Crea una matriz cuadrada de tamaño `size` inicializada con el valor 1 (base, consultar STATE_MAP en Utils.tsx)
 const createMatrix = (size: number): GridMatrix => {
@@ -35,8 +35,13 @@ export default function Grid() {
     });
   };
   // Resuelve el camino más corto y actualiza el estado del grid si se encuentra una ruta válida
-  const handleSolve = () => {
-    const solvedGrid = findPath(gridState);
+  const handleSolveBFS = () => {
+    const solvedGrid = findPathBFS(gridState);
+    if (solvedGrid) setGridState(solvedGrid);
+  };
+
+  const handleSolveDFS = () => {
+    const solvedGrid = findPathDFS(gridState);
     if (solvedGrid) setGridState(solvedGrid);
   };
 
@@ -67,7 +72,8 @@ export default function Grid() {
           value={inputValue}
           onChange={handleSizeChange}
         />
-        <button onClick={handleSolve}>Encontrar Camino</button>
+        <button onClick={handleSolveBFS}>Encontrar BFS</button>
+        <button onClick={handleSolveDFS}>Encontrar DFS</button>
         <button onClick={() => setGridState(resetGrid(gridState))}>Reiniciar Grid</button>
       </section>
     </div>

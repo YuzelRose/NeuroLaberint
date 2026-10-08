@@ -48,7 +48,7 @@ export function validateAndGetPoints(grid: GridMatrix): { start: Point; end: Poi
 }
 
 // Algoritmo BFS para encontrar el camino mas corto ente el punto de inicio (STATE_MAP: 2) y un punto final (STATE_MAP: 3)
-export function findPath(grid: GridMatrix): GridMatrix | null {
+export function findPathBFS(grid: GridMatrix): GridMatrix | null {
   const points = validateAndGetPoints(grid);
   // Faltan inicio/fin o duplicados
   if (!points) return null;
@@ -115,6 +115,73 @@ export function findPath(grid: GridMatrix): GridMatrix | null {
 
   while (curr && !(curr.x === start.x && curr.y === start.y)) {
     newGrid[curr.y][curr.x] = 5; // Cambiar el estado a 5 (path)
+    curr = parent[curr.y][curr.x];
+  }
+
+  return newGrid;
+}
+
+// Busqueda por DFS
+export function findPathDFS(grid: GridMatrix): GridMatrix | null {
+  const points = validateAndGetPoints(grid);
+  // Faltan inicio/fin o duplicados
+  if (!points) return null;
+
+  const { start, end } = points;
+  const size = grid.length;
+  // Matriz para rastrear celdas visitadas
+  const visited: boolean[][] = Array.from({ length: size }, () => Array(size).fill(false));
+  // Matriz para reconstruir el camino: guarda el padre de cada celda { parentY, parentX }
+  const parent: (Point | null)[][] = Array.from({ length: size }, () => Array(size).fill(null));
+  // Pila para DFS
+  const stack: Point[] = [start];
+  visited[start.y][start.x] = true;
+
+  // Direcciones ortogonales:
+  const directions = [
+    { x: 0, y: -1 }, // Arriba
+    { x: 0, y: 1 },  // Abajo
+    { x: -1, y: 0 }, // Izquierda
+    { x: 1, y: 0 },  // Derecha
+  ];
+
+  let pathFound = false;
+
+  while (stack.length > 0) {
+    const current = stack.pop()!;
+    // Si llegamos a la meta, terminamos el recorrido
+    if (current.x === end.x && current.y === end.y) {
+      pathFound = true;
+      break;
+    }
+
+    for (const dir of directions) {
+      const nextX = current.x + dir.x;
+      const nextY = current.y + dir.y;
+      // Validar límites del mapa
+      if (nextX >= 0 && nextX < size && nextY >= 0 && nextY < size) {
+        // No visitar paredes (4) ni nodos ya procesados
+        if (!visited[nextY][nextX] && grid[nextY][nextX] !== 4) {
+          visited[nextY][nextX] = true;
+          parent[nextY][nextX] = current;
+          stack.push({ x: nextX, y: nextY });
+        }
+      }
+    }
+  }
+
+  // Si recorrió todas las posiciones posibles sin llegar al fin
+  if (!pathFound) {
+    alert("No se encontró solución. Asegúrate de tener una ruta libre.");
+    return null;
+  }
+
+  // Reconstrucción del camino encontrado
+  const newGrid: GridMatrix = grid.map((row) => [...row]);
+  let curr: Point | null = parent[end.y][end.x];
+
+  while (curr && !(curr.x === start.x && curr.y === start.y)) {
+    newGrid[curr.y][curr.x] = 5; // Estado 5 (path)
     curr = parent[curr.y][curr.x];
   }
 
